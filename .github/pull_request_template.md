@@ -4,9 +4,10 @@ Describe the changes introduced by this PR.
 
 ## Checklist
 
-- [ ] Build succeeds locally
-- [ ] No private infrastructure details added
-- [ ] No secrets/tokens/IPs committed
+- [ ] `npm run build` passes
+- [ ] No private IPs, internal hostnames, admin URLs, tunnel IDs, secrets,
+      tokens, raw configs, or customer/employer-private details were added
+- [ ] Public links are safe and intentional
 - [ ] Navigation still works
 - [ ] Responsive layout checked
 - [ ] Documentation updated if needed
