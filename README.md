@@ -63,6 +63,11 @@ policy.
 - [docs/publication-rules.md](docs/publication-rules.md) — security and publication policy
 - [docs/decisions/](docs/decisions/) — architecture decision records
 
+## Repository hardening
+
+Repository ruleset, branch protection, and code scanning recommendations are
+documented in [docs/repository-hardening.md](docs/repository-hardening.md).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
