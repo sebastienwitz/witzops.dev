@@ -1,0 +1,164 @@
+---
+import { getCollection, render as renderEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TagList from "../../components/TagList.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await renderEntry(post);
+const { title, description, date, tags } = post.data;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  currentPath={`/blog/${post.id}`}
+>
+  <article>
+    <a href="/blog" class="back-link mono">&larr; Back to blog</a>
+
+    <header class="article-header">
+      <time datetime={date.toISOString()} class="article-date mono">
+        {date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+      </time>
+      <h1>{title}</h1>
+      <p class="lead">{description}</p>
+      <TagList tags={tags} />
+    </header>
+
+    <div class="article-body">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: var(--space-xl);
+    color: var(--accent);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    transition: color 140ms ease;
+  }
+
+  .back-link:hover {
+    color: var(--accent-strong);
+  }
+
+  .article-header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .article-date {
+    display: block;
+    margin-bottom: var(--space-sm);
+    color: var(--accent);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .article-header h1 {
+    max-width: 20ch;
+    font-size: clamp(2rem, 5vw, 4.2rem);
+    line-height: 1.08;
+  }
+
+  .article-header .lead {
+    margin-bottom: var(--space-md);
+  }
+
+  .article-body {
+    max-width: 46rem;
+  }
+
+  .article-body :global(h2) {
+    margin-top: var(--space-2xl);
+    margin-bottom: var(--space-md);
+    font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+    line-height: 1.15;
+  }
+
+  .article-body :global(h3) {
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-sm);
+    font-size: 1.15rem;
+  }
+
+  .article-body :global(p) {
+    margin-bottom: var(--space-md);
+    line-height: 1.75;
+  }
+
+  .article-body :global(ul),
+  .article-body :global(ol) {
+    margin-bottom: var(--space-md);
+    padding-left: 1.5rem;
+    color: var(--text-soft);
+  }
+
+  .article-body :global(li) {
+    margin-bottom: 0.4rem;
+  }
+
+  .article-body :global(pre) {
+    margin: var(--space-md) 0;
+    padding: var(--space-md);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(0, 0, 0, 0.35);
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--text-soft);
+  }
+
+  .article-body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+
+  .article-body :global(:not(pre) > code) {
+    padding: 0.15em 0.4em;
+    border: 1px solid var(--line);
+    border-radius: 0.35rem;
+    background: rgba(126, 215, 255, 0.08);
+    color: var(--accent);
+  }
+
+  .article-body :global(strong) {
+    color: var(--text);
+  }
+
+  .article-body :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .article-body :global(a:hover) {
+    color: var(--accent-strong);
+  }
+
+  .article-body :global(blockquote) {
+    margin: var(--space-md) 0;
+    padding: 0.5rem 0 0.5rem 1rem;
+    border-left: 3px solid var(--accent-line);
+    color: var(--text-muted);
+  }
+</style>
