@@ -2,37 +2,137 @@
 import Callout from "../components/Callout.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const interests = [
-  "Self-hosted infrastructure",
-  "DevOps automation",
-  "AI engineering workflows",
-  "Observability",
-  "Infrastructure as Code",
-  "Secure remote access",
-  "Legacy modernization",
+const focusAreas = [
+  {
+    title: "Legacy modernization",
+    description:
+      "Improving existing systems without pretending that a rewrite is always the answer.",
+  },
+  {
+    title: "DevOps automation",
+    description:
+      "Building repeatable workflows around CI/CD, validation, release discipline, and operational feedback.",
+  },
+  {
+    title: "AI-assisted engineering",
+    description:
+      "Using agents and language models as engineering accelerators, with clear context, boundaries, and review.",
+  },
+  {
+    title: "Infrastructure experimentation",
+    description:
+      "Turning self-hosted services into a more deliberate platform instead of a pile of useful accidents.",
+  },
+  {
+    title: "Observability",
+    description:
+      "Making system health, exposure, and change visible enough to support decisions.",
+  },
+  {
+    title: "Public-safe documentation",
+    description:
+      "Transforming private runbooks into reusable public engineering notes without leaking sensitive details.",
+  },
 ];
 ---
 
-<BaseLayout title="About" description="About the WitzOps engineering notebook." currentPath="/about">
-  <section>
+<BaseLayout
+  title="About"
+  description="About WitzOps — software engineering, DevOps, and AI-assisted modernization."
+  currentPath="/about"
+>
+  <section class="page-header">
     <p class="section-eyebrow">About</p>
-    <h1>WitzOps is a public engineering notebook with a narrow operational focus.</h1>
+    <h1>Software engineering, DevOps, and AI-assisted modernization.</h1>
+    <p class="lead">
+      I&rsquo;m Seb, a software engineer focused on making complex systems easier to understand,
+      automate, and evolve.
+    </p>
     <p>
-      The goal is to document platform work in a way that is reusable, security-aware, and grounded in actual delivery
-      constraints.
+      WitzOps is my public engineering notebook for infrastructure, DevOps, AI-assisted workflows, and
+      modernization work.
     </p>
   </section>
 
-  <section class="surface" style="padding: 1.5rem;">
-    <h2>Core topics</h2>
-    <ul>
-      {interests.map((interest) => <li>{interest}</li>)}
-    </ul>
+  <section>
+    <h2>Profile</h2>
+    <p>
+      I work at the intersection of software engineering, DevOps, legacy modernization, and platform
+      thinking.
+    </p>
+    <p>
+      A lot of my work is about bringing structure to systems that already exist: improving build
+      discipline, making deployment safer, documenting architecture, reducing operational mystery, and
+      using AI tools without losing engineering judgment.
+    </p>
+    <p>WitzOps is where I publish the public-safe version of that work.</p>
   </section>
 
   <section>
-    <Callout title="Editorial direction">
-      <p>The site stays engineering-first: concrete, restrained, and deliberately free of startup-page filler.</p>
+    <h2>Focus areas</h2>
+    <div class="content-grid">
+      {
+        focusAreas.map((area) => (
+          <article class="surface focus-card">
+            <h3>{area.title}</h3>
+            <p>{area.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section>
+    <Callout title="Why WitzOps exists">
+      <p>
+        WitzOps is not meant to be a polished product or a complete platform blueprint.
+      </p>
+      <p>
+        It is a public place to document real engineering work: the decisions, experiments, trade-offs,
+        and patterns that are safe and useful to share.
+      </p>
+      <p>The private implementation stays private. The public reasoning becomes reusable.</p>
     </Callout>
   </section>
+
+  <section>
+    <h2>Links</h2>
+    <div class="button-row">
+      <a class="button" href="https://github.com/sebastienwitz" rel="noopener noreferrer">
+        GitHub &mdash; sebastienwitz
+      </a>
+      <button class="button" data-variant="ghost" disabled>
+        LinkedIn &mdash; coming later
+      </button>
+      <button class="button" data-variant="ghost" disabled>
+        Contact &mdash; coming later
+      </button>
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .focus-card {
+    padding: 1.2rem;
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+    transition: border-color 150ms ease;
+  }
+
+  .focus-card:hover {
+    border-color: var(--line-strong);
+  }
+
+  .focus-card h3 {
+    margin-bottom: 0;
+    font-size: 1.05rem;
+    color: #e8e2d8;
+  }
+
+  .focus-card p {
+    margin-bottom: 0;
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+</style>
