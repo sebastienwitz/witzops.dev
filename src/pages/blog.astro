@@ -2,6 +2,7 @@
 import TagList from "../components/TagList.astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { blogPath } from "../lib/routes";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
   (left, right) => right.data.date.getTime() - left.data.date.getTime(),
@@ -26,7 +27,7 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
         </article>
       ) : (
         posts.map((post) => (
-          <article class="surface article-entry">
+          <article class="surface interactive-card article-entry">
             <p class="article-entry__meta mono">
               <time datetime={post.data.date.toISOString()}>
                 {post.data.date.toLocaleDateString("en-US", {
@@ -36,7 +37,7 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
                 })}
               </time>
             </p>
-            <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
+            <h3 class="card-title"><a href={blogPath(post.id)} class="card-link">{post.data.title}</a></h3>
             <p>{post.data.description}</p>
             <TagList tags={post.data.tags} />
           </article>
@@ -62,7 +63,7 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
     text-transform: uppercase;
   }
 
-  .article-entry h3 a:hover {
+  .article-entry .card-link:hover {
     color: var(--accent);
   }
 
