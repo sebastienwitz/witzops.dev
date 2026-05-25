@@ -7,30 +7,10 @@ const { tags } = Astro.props;
 ---
 
 <ul class="tag-list" aria-label="Tags">
-  {
-    tags.map((tag) => (
-      <li>{tag}</li>
-    ))
-  }
+  {tags.map((tag) => <li>{tag}</li>)}
 </ul>
 
 <style>
-  .tag-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.55rem;
-  }
-
-  .tag-list li {
-    padding: 0.28rem 0.65rem;
-    border-radius: 999px;
-    border: 1px solid var(--line-strong);
-    background: rgba(8, 14, 19, 0.7);
-    color: var(--text-soft);
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-  }
+  .tag-list { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.55rem; }
+  .tag-list li { padding: 0.32rem 0.68rem; border-radius: 999px; border: 1px solid var(--line-strong); background: rgba(126, 215, 255, 0.07); color: #c2d4e5; font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.02em; }
 </style>

@@ -23,6 +23,12 @@ const previewProjects = [
     tags: ["Astro", "Content", "Structure"],
   },
   {
+    title: "Observability layer",
+    summary: "A planned metrics and status layer for turning platform operations into visible engineering signals.",
+    status: "Planned",
+    tags: ["Grafana", "Prometheus", "IaC"],
+  },
+  {
     title: "Public-safe lab reporting",
     summary: "A publication model that turns private operations work into reusable public engineering articles.",
     status: "Framing",
@@ -36,14 +42,22 @@ const previewProjects = [
     <div>
       <p class="section-eyebrow">Engineering field notebook</p>
       <h1>{siteTitle}</h1>
-      <p>
-        {siteTagline} This site is being assembled as a public notebook for infrastructure, automation, observability,
-        and AI-assisted platform work.
+      <p class="lead">
+        {siteTagline} A public notebook for infrastructure, automation, observability, and AI-assisted platform work.
       </p>
+      <div class="button-row">
+        <a class="button" href="/projects">Explore projects</a>
+        <a class="button" data-variant="ghost" href="/architecture">Architecture notes</a>
+      </div>
     </div>
 
     <Callout title="Current state">
-      <p>Base layout and navigation are in place. Articles, project detail, and deeper documentation land next.</p>
+      <p>Base site, navigation, agent guidance, and content collections are in place. The next layer turns that structure into public engineering material.</p>
+      <div class="status-grid">
+        <div class="status-card"><span>Site</span><strong>MVP</strong></div>
+        <div class="status-card"><span>Content</span><strong>Drafting</strong></div>
+        <div class="status-card"><span>Ops</span><strong>Private</strong></div>
+      </div>
     </Callout>
   </section>
 
@@ -54,7 +68,7 @@ const previewProjects = [
 
   <section>
     <p class="section-eyebrow">Preview</p>
-    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));">
+    <div class="content-grid">
       {previewProjects.map((project) => <ProjectCard {...project} />)}
     </div>
   </section>
