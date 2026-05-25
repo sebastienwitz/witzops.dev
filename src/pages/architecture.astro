@@ -2,36 +2,170 @@
 import Callout from "../components/Callout.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const focusAreas = [
-  "Service boundaries and platform primitives",
-  "Infrastructure lifecycle and deployment surfaces",
-  "Observability and operational feedback loops",
+const principles = [
+  {
+    title: "Deliberate exposure",
+    body: "Public entry points are intentionally limited. Nothing is exposed by default. Every ingress decision is explicit.",
+  },
+  {
+    title: "Internal gateway",
+    body: "A single internal application gateway provides routing and access control. Individual services do not invent their own exposure models.",
+  },
+  {
+    title: "Named and navigable",
+    body: "Internal naming conventions make the lab understandable. Naming is an architectural concern, not a cosmetic one.",
+  },
+  {
+    title: "Observability first",
+    body: "The goal is to answer operational questions: what runs, what is healthy, what changed, what is exposed, what needs attention.",
+  },
+  {
+    title: "Infrastructure as Code",
+    body: "Platform configuration should be reproducible, reviewable, and free of oral tradition. IaC is a roadmap item, not a finished project.",
+  },
+  {
+    title: "Public-safe by design",
+    body: "Private implementation stays private. Public writing shares patterns and reasoning. Exact coordinates and topology are never published.",
+  },
 ];
 ---
 
-<BaseLayout title="Architecture" description="Architecture notes and platform framing." currentPath="/architecture">
-  <section>
+<BaseLayout title="Architecture" description="Public-safe architecture direction for the WitzOps platform." currentPath="/architecture">
+  <section class="page-header">
     <p class="section-eyebrow">Architecture</p>
     <h1>Architecture as an operating document, not a slide deck.</h1>
-    <p>
-      WitzOps will use this space for diagrams, boundary decisions, and pattern notes that explain why a platform is
-      shaped a certain way.
+    <p class="lead">
+      This page describes the platform shape, boundaries, and decisions that guide how WitzOps infrastructure is built
+      and operated. It is a public-safe view. Internal topology is documented separately.
     </p>
   </section>
 
-  <section class="surface" style="padding: 1.5rem;">
-    <h2>Planned sections</h2>
-    <ul>
-      {focusAreas.map((item) => <li>{item}</li>)}
-    </ul>
+  <section role="region" aria-labelledby="principles-heading">
+    <h2 id="principles-heading">Architecture principles</h2>
+    <div class="content-grid">
+      {principles.map((principle) => (
+        <article class="surface" style="padding: 1.5rem;">
+          <h3 class="card-title">{principle.title}</h3>
+          <p>{principle.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section role="region" aria-labelledby="edge-heading">
+    <h2 id="edge-heading">External edge</h2>
+    <div class="surface" style="padding: 1.5rem;">
+      <p>
+        The external edge is the boundary between the public internet and WitzOps infrastructure. It is intentionally
+        narrow. Cloudflare sits at this edge and handles public DNS, TLS termination, and traffic policy for the
+        public-facing surfaces.
+      </p>
+      <p>
+        Public pages and private operational access are treated as separate concerns. Public content is served through
+        a standard edge pipeline. Private access follows a different path with independent controls. Exposure is never
+        accidental. Every ingress path is the result of a deliberate decision.
+      </p>
+    </div>
+  </section>
+
+  <section role="region" aria-labelledby="gateway-heading">
+    <h2 id="gateway-heading">Internal gateway</h2>
+    <div class="surface" style="padding: 1.5rem;">
+      <p>
+        An internal application gateway provides a single place for routing, access decisions, and request policy.
+        The gateway pattern avoids the sprawl that comes from giving every internal service its own exposure logic.
+      </p>
+      <p>
+        Nginx is used as the internal gateway. It handles TLS within the internal boundary, routes requests to the
+        appropriate service, and enforces access rules. This keeps the service layer simpler and makes the internal
+        network topology easier to reason about.
+      </p>
+    </div>
+  </section>
+
+  <section role="region" aria-labelledby="dns-heading">
+    <h2 id="dns-heading">Internal DNS</h2>
+    <div class="surface" style="padding: 1.5rem;">
+      <p>
+        Internal services follow a <code>*.lan</code> naming convention. The convention serves a practical purpose:
+        it makes internal resources identifiable and the lab navigable. Naming is treated as a first-class architectural
+        concern because it shapes how operators and automation discover and reason about the platform.
+      </p>
+      <p>
+        A structured naming scheme reduces cognitive overhead during troubleshooting and keeps configuration predictable.
+        Service discovery and internal routing both depend on names being stable and meaningful.
+      </p>
+    </div>
+  </section>
+
+  <section role="region" aria-labelledby="observability-heading">
+    <h2 id="observability-heading">Observability layer</h2>
+    <div class="surface" style="padding: 1.5rem;">
+      <p>
+        Observability is an emerging layer. The goal is not to build a dashboard collection but to answer a set of
+        operational questions that matter for day-to-day platform work:
+      </p>
+      <ul>
+        <li>What is running and where?</li>
+        <li>What is healthy and what is not?</li>
+        <li>What changed, when, and why?</li>
+        <li>What is exposed to the network?</li>
+        <li>What needs attention right now?</li>
+      </ul>
+      <p>
+        Dashboards should support operational decisions, not monitoring theatre. The layer will be built incrementally
+        and wired into the existing platform as questions arise in practice, not as a separate system assembled in
+        isolation.
+      </p>
+    </div>
+  </section>
+
+  <section role="region" aria-labelledby="iac-heading">
+    <h2 id="iac-heading">Infrastructure as Code roadmap</h2>
+    <div class="surface" style="padding: 1.5rem;">
+      <p>
+        Infrastructure as Code is a roadmap item, not a fully implemented claim. The direction is toward
+        reproducibility, reviewable change, and reducing the amount of infrastructure folklore carried in heads and
+        shell histories.
+      </p>
+      <p>
+        Ansible, OpenTofu, and Docker Compose are all candidates for different layers of the stack. The approach is
+        incremental: automate what hurts first, keep the surface area manageable, and avoid the trap of overbuilding
+        automation for problems that do not yet exist at this scale. Each piece of automation should solve a real
+        operational friction point before the next is introduced.
+      </p>
+    </div>
   </section>
 
   <section>
-    <Callout title="Publication rule">
+    <Callout title="Public vs private documentation">
       <p>
-        Architecture content stays public-safe: patterns, trade-offs, and abstractions are in scope; exploitable
-        topology and internal coordinates are not.
+        Private runbooks, operational procedures, and internal topology remain private. What appears on this site is
+        sanitized: exact coordinates, credentials, and internal identifiers are removed. Published reasoning becomes
+        a reusable pattern. Private implementation stays private.
+      </p>
+      <p>
+        A separate internal portal contains the full operational view, including runbooks, network diagrams, and
+        access procedures. That portal is not exposed publicly. The boundary between public writing and private
+        operations is deliberate and enforced.
       </p>
     </Callout>
+  </section>
+
+  <section role="region" aria-labelledby="roadmap-heading">
+    <h2 id="roadmap-heading">What comes next</h2>
+    <div class="surface" style="padding: 1.5rem;">
+      <p>The architecture is evolving. Current priorities for the near term:</p>
+      <ul>
+        <li>Solidify the observability pipeline with metrics, logs, and alerting wired to real operational needs.</li>
+        <li>Begin formalizing IaC for the layers where manual configuration creates the most friction.</li>
+        <li>Refine the internal gateway configuration into a documented, version-controlled pattern.</li>
+        <li>Build the internal operations portal as the authoritative home for runbooks and private topology.</li>
+      </ul>
+      <p>
+        Each item will be written up as it progresses. The architecture page will be updated to reflect what was
+        learned and what changed.
+      </p>
+    </div>
   </section>
 </BaseLayout>
