@@ -1,0 +1,141 @@
+---
+import TagList from "../../components/TagList.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("projects");
+  return entries.map((entry) => ({
+    params: { slug: entry.id },
+  }));
+}
+
+const { slug } = Astro.params;
+
+const projects = await getCollection("projects");
+const project = projects.find((entry) => entry.id === slug);
+
+if (!project) {
+  return Astro.redirect("/projects");
+}
+
+const { Content } = await render(project);
+---
+
+<BaseLayout
+  title={project.data.title}
+  description={project.data.description}
+  currentPath="/projects"
+>
+  <section>
+    <a class="back-link mono" href="/projects">Back to projects</a>
+  </section>
+
+  <section class="detail-header">
+    <div class="detail-header__row">
+      <p class="section-eyebrow">Project</p>
+      <span class="status-badge mono">{project.data.status}</span>
+    </div>
+    <h1>{project.data.title}</h1>
+    <p class="lead">{project.data.description}</p>
+    <div class="detail-header__tags">
+      <TagList tags={project.data.tags} />
+    </div>
+  </section>
+
+  <section class="detail-body">
+    <Content />
+  </section>
+</BaseLayout>
+
+<style>
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0;
+    color: var(--text-soft);
+    font-size: 0.84rem;
+    letter-spacing: 0;
+    transition: color 140ms ease;
+  }
+
+  .back-link::before {
+    content: "\2190";
+    font-size: 0.9rem;
+  }
+
+  .back-link:hover {
+    color: var(--accent-strong);
+  }
+
+  .detail-header {
+    max-width: 42rem;
+    margin-top: var(--space-xl);
+  }
+
+  .detail-header__row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .detail-header__row .section-eyebrow {
+    margin-bottom: var(--space-sm);
+  }
+
+  .status-badge {
+    flex: 0 0 auto;
+    padding: 0.25rem 0.6rem;
+    margin-bottom: 0.7rem;
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+    background: rgba(85, 199, 232, 0.07);
+    color: var(--accent-strong);
+    font-size: 0.72rem;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .detail-header .lead {
+    margin-top: 0.25rem;
+  }
+
+  .detail-header__tags {
+    margin-top: var(--space-lg);
+  }
+
+  .detail-body {
+    max-width: 42rem;
+    margin-top: 1.5rem;
+  }
+
+  .detail-body :global(p) {
+    margin-bottom: 1rem;
+    color: var(--text-soft);
+    line-height: 1.72;
+  }
+
+  .detail-body :global(ul),
+  .detail-body :global(ol) {
+    margin-bottom: 1rem;
+    padding-left: 1.4rem;
+    color: var(--text-soft);
+    line-height: 1.72;
+  }
+
+  .detail-body :global(li) {
+    margin-bottom: 0.35rem;
+  }
+
+  .detail-body :global(h2) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .detail-body :global(h3) {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+</style>

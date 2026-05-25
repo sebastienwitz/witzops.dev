@@ -32,6 +32,7 @@ const projectCards = (await getCollection("projects")).sort(
             summary={project.data.description}
             status={project.data.status}
             tags={project.data.tags}
+            href={`/projects/${project.id}`}
           />
         ))
       )
