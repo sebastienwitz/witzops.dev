@@ -21,30 +21,10 @@ const { title, summary, status, tags } = Astro.props;
 </article>
 
 <style>
-  .project-card {
-    padding: 1.25rem;
-    display: grid;
-    gap: 1rem;
-  }
-
-  .project-card__header {
-    display: flex;
-    gap: 1rem;
-    align-items: baseline;
-    justify-content: space-between;
-  }
-
-  .project-card__header span {
-    color: var(--accent);
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  @media (max-width: 40rem) {
-    .project-card__header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
+  .project-card { min-height: 13rem; padding: 1.3rem; display: grid; gap: 1rem; align-content: start; transition: transform 150ms ease, border-color 150ms ease; }
+  .project-card:hover { transform: translateY(-2px); border-color: var(--line-strong); }
+  .project-card__header { display: flex; gap: 1rem; align-items: flex-start; justify-content: space-between; }
+  .project-card__header span { flex: 0 0 auto; padding: 0.25rem 0.52rem; border: 1px solid var(--accent-line); border-radius: 999px; background: rgba(126, 215, 255, 0.09); color: var(--accent-strong); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.2; text-transform: uppercase; }
+  .project-card p { margin-bottom: 0; }
+  @media (max-width: 40rem) { .project-card__header { flex-direction: column; align-items: flex-start; } }
 </style>
