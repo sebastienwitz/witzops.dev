@@ -1,9 +1,8 @@
 ---
-import Callout from "../components/Callout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import TagList from "../components/TagList.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { siteTagline, siteTitle } from "../data/site";
+import { siteTagline } from "../data/site";
 
 const focusTags = [
   "Self-hosted infrastructure",
@@ -39,26 +38,18 @@ const previewProjects = [
 
 <BaseLayout title="Home" description={siteTagline} currentPath="/">
   <section class="grid hero-grid">
-    <div>
+    <div class="home-hero">
+      <img class="home-hero__logo" src="/brand/witzops-logo-dark-horizontal.png" alt="WitzOps.dev" width="488" height="112" />
       <p class="section-eyebrow">Engineering field notebook</p>
-      <h1>{siteTitle}</h1>
+      <h1>{siteTagline}</h1>
       <p class="lead">
-        {siteTagline} A public notebook for infrastructure, automation, observability, and AI-assisted platform work.
+        A public notebook for infrastructure, automation, observability, and AI-assisted platform work.
       </p>
       <div class="button-row">
         <a class="button" href="/projects">Explore projects</a>
         <a class="button" data-variant="ghost" href="/architecture">Architecture notes</a>
       </div>
     </div>
-
-    <Callout title="Current state">
-      <p>Base site, navigation, agent guidance, and content collections are in place. The next layer turns that structure into public engineering material.</p>
-      <div class="status-grid">
-        <div class="status-card"><span>Site</span><strong>MVP</strong></div>
-        <div class="status-card"><span>Content</span><strong>Drafting</strong></div>
-        <div class="status-card"><span>Ops</span><strong>Private</strong></div>
-      </div>
-    </Callout>
   </section>
 
   <section>
@@ -73,3 +64,16 @@ const previewProjects = [
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .home-hero {
+    max-width: 46rem;
+  }
+
+  .home-hero__logo {
+    display: block;
+    width: min(18rem, 100%);
+    height: auto;
+    margin-bottom: 2rem;
+  }
+</style>
