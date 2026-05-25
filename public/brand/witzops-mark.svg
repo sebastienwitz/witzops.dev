@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">WitzOps mark</title>
+  <desc id="desc">A simple technical WitzOps mark used for the public site.</desc>
+  <defs>
+    <linearGradient id="g" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7ED7FF"/>
+      <stop offset="1" stop-color="#F6C177"/>
+    </linearGradient>
+  </defs>
+  <rect x="5" y="5" width="54" height="54" rx="15" fill="#07111A" stroke="rgba(126,215,255,.42)" stroke-width="2"/>
+  <path d="M18 18h7l5 20 6-20h5l6 20 5-20h7L49 47h-6l-6-19-6 19h-6L18 18Z" fill="url(#g)"/>
+  <path d="M14 47h36" stroke="#7ED7FF" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/>
+</svg>
