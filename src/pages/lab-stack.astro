@@ -1,30 +1,315 @@
 ---
 import Callout from "../components/Callout.astro";
-import TagList from "../components/TagList.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const stackAreas = ["Compute", "Networking", "Observability", "CI/CD", "Access Control", "Backups"];
+interface Tool {
+  name: string;
+  category: string;
+  role: string;
+  status: string;
+  link?: string;
+}
+
+const tools: Tool[] = [
+  {
+    name: "Proxmox",
+    category: "Infrastructure",
+    role: "Virtualization foundation for lab compute and isolated workloads.",
+    status: "Active",
+    link: "https://www.proxmox.com/",
+  },
+  {
+    name: "Docker",
+    category: "Infrastructure",
+    role: "Container runtime for packaging and running services across the lab.",
+    status: "Active",
+    link: "https://www.docker.com/",
+  },
+  {
+    name: "Docker Compose",
+    category: "Infrastructure",
+    role: "Declarative service composition for local and lab container stacks.",
+    status: "Active",
+    link: "https://docs.docker.com/compose/",
+  },
+  {
+    name: "Cloudflare Access",
+    category: "Operations",
+    role: "Identity-aware access layer for services without exposing them to the public internet.",
+    status: "Active",
+    link: "https://www.cloudflare.com/products/zero-trust/access/",
+  },
+  {
+    name: "Portainer",
+    category: "Operations",
+    role: "Container management surface for visibility and quick operational actions.",
+    status: "Active",
+    link: "https://www.portainer.io/",
+  },
+  {
+    name: "Home Assistant",
+    category: "Operations",
+    role: "Home automation hub used as a reference for on-prem service integration.",
+    status: "Active",
+    link: "https://www.home-assistant.io/",
+  },
+  {
+    name: "Uptime Kuma",
+    category: "Operations",
+    role: "Lightweight status monitoring for lab services and external endpoints.",
+    status: "Active",
+    link: "https://github.com/louislam/uptime-kuma",
+  },
+  {
+    name: "Guacamole",
+    category: "Operations",
+    role: "Browser-based remote access to lab hosts and virtual desktops.",
+    status: "Active",
+    link: "https://guacamole.apache.org/",
+  },
+  {
+    name: "GitHub",
+    category: "Source & CI/CD",
+    role: "Public source hosting, Actions-based CI, and community engagement.",
+    status: "Active",
+    link: "https://github.com/",
+  },
+  {
+    name: "GitLab",
+    category: "Source & CI/CD",
+    role: "Private repository hosting and CI/CD pipelines for internal projects.",
+    status: "Active",
+    link: "https://about.gitlab.com/",
+  },
+  {
+    name: "Azure DevOps",
+    category: "Source & CI/CD",
+    role: "Enterprise CI/CD workflows and artifact management for professional work.",
+    status: "Reference",
+    link: "https://azure.microsoft.com/products/devops/",
+  },
+  {
+    name: "Hermes",
+    category: "AI Engineering",
+    role: "Agent-assisted engineering workflow for project context and tool orchestration.",
+    status: "Experimental",
+  },
+  {
+    name: "OpenClaw",
+    category: "AI Engineering",
+    role: "Local and remote tool orchestration for AI-augmented development tasks.",
+    status: "Experimental",
+  },
+  {
+    name: "MCP",
+    category: "AI Engineering",
+    role: "Model Context Protocol for structured tool integration across AI workflows.",
+    status: "Experimental",
+    link: "https://modelcontextprotocol.io/",
+  },
+  {
+    name: "Grafana",
+    category: "Observability",
+    role: "Dashboard and visualization layer for platform metrics and service health.",
+    status: "Active",
+    link: "https://grafana.com/",
+  },
+  {
+    name: "Prometheus",
+    category: "Observability",
+    role: "Metrics collection and alerting for infrastructure and application monitoring.",
+    status: "Active",
+    link: "https://prometheus.io/",
+  },
+  {
+    name: "Loki",
+    category: "Observability",
+    role: "Log aggregation and querying, planned as the logging companion to Prometheus.",
+    status: "Planned",
+    link: "https://grafana.com/oss/loki/",
+  },
+  {
+    name: "Uptime Kuma",
+    category: "Observability",
+    role: "Lightweight public status page and endpoint health checks.",
+    status: "Active",
+    link: "https://github.com/louislam/uptime-kuma",
+  },
+  {
+    name: "Ansible",
+    category: "Automation / IaC",
+    role: "Configuration management and task automation across lab hosts.",
+    status: "Active",
+    link: "https://www.ansible.com/",
+  },
+  {
+    name: "OpenTofu",
+    category: "Automation / IaC",
+    role: "Open-source infrastructure-as-code tool for declarative resource provisioning.",
+    status: "Reference",
+    link: "https://opentofu.org/",
+  },
+  {
+    name: "Docker Compose",
+    category: "Automation / IaC",
+    role: "Declarative service definitions that double as lightweight infrastructure-as-code.",
+    status: "Active",
+    link: "https://docs.docker.com/compose/",
+  },
+];
+
+const categories = [
+  {
+    name: "Infrastructure",
+    description:
+      "Compute, containers, and local service composition. The foundation layer that runs everything else.",
+  },
+  {
+    name: "Operations",
+    description:
+      "Access, operational surfaces, service visibility, and admin workflows. Keeping the lab manageable without exposing it.",
+  },
+  {
+    name: "Source & CI/CD",
+    description:
+      "Source hosting, CI/CD workflows, public/private repository separation, and automation pipelines.",
+  },
+  {
+    name: "AI Engineering",
+    description:
+      "Agent-assisted workflows, local and remote tool orchestration, project context, and AI-augmented engineering. An emerging area under active exploration.",
+  },
+  {
+    name: "Observability",
+    description:
+      "Metrics, dashboards, logs, platform health, and service status. This layer is operational in parts and expanding as needs mature.",
+  },
+  {
+    name: "Automation / IaC",
+    description:
+      "Reproducible setup, configuration automation, and reviewable infrastructure changes as code.",
+  },
+];
 ---
 
-<BaseLayout title="Lab Stack" description="Public-safe lab stack overview." currentPath="/lab-stack">
-  <section>
+<BaseLayout
+  title="Lab Stack"
+  description="Public-safe view of the tools and platform categories behind the WitzOps lab."
+  currentPath="/lab-stack"
+>
+  <section class="page-header">
     <p class="section-eyebrow">Lab Stack</p>
-    <h1>A public-safe view of the platform categories behind the lab.</h1>
-    <p>
-      This page will document tooling classes, workflows, and design decisions without exposing internal identifiers or
-      sensitive topology.
+    <h1>A public-safe view of the tools and platform categories behind the lab.</h1>
+    <p class="lead">
+      This page presents the technical ecosystem in broad strokes &mdash; tool classes, workflows,
+      and the reasoning behind platform choices &mdash; without exposing internal identifiers,
+      addresses, or sensitive topology.
     </p>
   </section>
 
-  <section class="surface" style="padding: 1.5rem; display: grid; gap: 1rem;">
-    <h2>Coverage</h2>
-    <TagList tags={stackAreas} />
-    <p>Service names and exact deployment details remain out of scope for public publication.</p>
-  </section>
+  {
+    categories.map((category) => {
+      const categoryTools = tools.filter((t) => t.category === category.name);
+      if (categoryTools.length === 0) return null;
+
+      return (
+        <section>
+          <p class="section-eyebrow">{category.name}</p>
+          <h2>{category.name}</h2>
+          <p>{category.description}</p>
+          <div class="content-grid">
+            {categoryTools.map((tool) => (
+              <article class="surface tool-card">
+                <div class="tool-card__header">
+                  <h3 class="tool-card__name">
+                    {tool.link ? (
+                      <a href={tool.link} rel="noopener noreferrer">{tool.name}</a>
+                    ) : (
+                      tool.name
+                    )}
+                  </h3>
+                  <span class="tool-card__status mono">{tool.status}</span>
+                </div>
+                <p class="tool-card__role">{tool.role}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      );
+    })
+  }
 
   <section>
-    <Callout title="Boundary" variant="muted">
-      <p>Private runbooks stay private. Public content becomes high-signal engineering explanation.</p>
+    <Callout title="Public-safety note">
+      <p>
+        This page describes tool categories and publicly available projects. Service names, internal
+        hostnames, IP addresses, tunnel identifiers, admin URLs, and operational runbooks remain out
+        of scope for public publication. The goal is a transparent picture of the technical approach
+        without creating an exploitable inventory.
+      </p>
     </Callout>
   </section>
 </BaseLayout>
+
+<style>
+  .page-header {
+    margin-bottom: var(--space-xl);
+  }
+
+  .tool-card {
+    padding: 1.2rem;
+    display: grid;
+    gap: 0.9rem;
+    align-content: start;
+    min-height: 8rem;
+    transition: border-color 150ms ease;
+  }
+
+  .tool-card:hover {
+    border-color: var(--line-strong);
+  }
+
+  .tool-card__header {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .tool-card__name {
+    font-size: 1.05rem;
+    margin-bottom: 0;
+    color: #e8e2d8;
+  }
+
+  .tool-card__name a:hover {
+    color: var(--accent);
+  }
+
+  .tool-card__status {
+    flex: 0 0 auto;
+    padding: 0.25rem 0.52rem;
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+    background: rgba(85, 199, 232, 0.07);
+    color: var(--accent-strong);
+    font-size: 0.72rem;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .tool-card__role {
+    margin-bottom: 0;
+    color: var(--text-soft);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 40rem) {
+    .tool-card__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
