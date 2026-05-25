@@ -2,6 +2,7 @@
 import ProjectCard from "../components/ProjectCard.astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { projectPath } from "../lib/routes";
 
 const projectCards = (await getCollection("projects")).sort(
   (left, right) => left.data.order - right.data.order,
@@ -27,13 +28,14 @@ const projectCards = (await getCollection("projects")).sort(
         </article>
       ) : (
         projectCards.map((project) => (
-          <ProjectCard
-            title={project.data.title}
-            summary={project.data.description}
-            status={project.data.status}
-            tags={project.data.tags}
-            href={`/projects/${project.id}`}
-          />
+          <a href={projectPath(project.id)} class="card-link">
+            <ProjectCard
+              title={project.data.title}
+              summary={project.data.description}
+              status={project.data.status}
+              tags={project.data.tags}
+            />
+          </a>
         ))
       )
     }
