@@ -1,0 +1,37 @@
+---
+import Callout from "../components/Callout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const focusAreas = [
+  "Service boundaries and platform primitives",
+  "Infrastructure lifecycle and deployment surfaces",
+  "Observability and operational feedback loops",
+];
+---
+
+<BaseLayout title="Architecture" description="Architecture notes and platform framing." currentPath="/architecture">
+  <section>
+    <p class="section-eyebrow">Architecture</p>
+    <h1>Architecture as an operating document, not a slide deck.</h1>
+    <p>
+      WitzOps will use this space for diagrams, boundary decisions, and pattern notes that explain why a platform is
+      shaped a certain way.
+    </p>
+  </section>
+
+  <section class="surface" style="padding: 1.5rem;">
+    <h2>Planned sections</h2>
+    <ul>
+      {focusAreas.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+
+  <section>
+    <Callout title="Publication rule">
+      <p>
+        Architecture content stays public-safe: patterns, trade-offs, and abstractions are in scope; exploitable
+        topology and internal coordinates are not.
+      </p>
+    </Callout>
+  </section>
+</BaseLayout>

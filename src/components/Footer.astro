@@ -1,0 +1,76 @@
+---
+import { navigationItems, socialNote, siteTitle } from "../data/site";
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <p class="site-footer__title">{siteTitle}</p>
+      <p>{socialNote}</p>
+    </div>
+
+    <nav aria-label="Footer">
+      <ul class="site-footer__nav">
+        {
+          navigationItems.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    background: rgba(9, 13, 18, 0.9);
+  }
+
+  .site-footer__inner {
+    width: min(calc(100% - 2rem), var(--content-width));
+    margin: 0 auto;
+    padding: 1.5rem 0 2.5rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: minmax(0, 1.3fr) minmax(14rem, 1fr);
+  }
+
+  .site-footer__title {
+    color: var(--text);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .site-footer__nav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+    justify-content: flex-end;
+  }
+
+  .site-footer__nav a {
+    color: var(--text-soft);
+  }
+
+  .site-footer__nav a:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 48rem) {
+    .site-footer__inner {
+      width: min(calc(100% - 1.25rem), var(--content-width));
+      grid-template-columns: 1fr;
+    }
+
+    .site-footer__nav {
+      justify-content: flex-start;
+    }
+  }
+</style>

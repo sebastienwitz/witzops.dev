@@ -1,0 +1,33 @@
+---
+import ArticleCard from "../components/ArticleCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const draftArticles = [
+  {
+    title: "Why I'm building WitzOps",
+    summary: "A short introduction to the purpose and boundaries of the field notebook.",
+    href: "/blog",
+    tags: ["Platform", "Notes", "Mission"],
+  },
+  {
+    title: "From homelab to engineering platform",
+    summary: "A framing article on operational discipline, reusable patterns, and public documentation.",
+    href: "/blog",
+    tags: ["Operations", "Architecture", "Growth"],
+  },
+];
+---
+
+<BaseLayout title="Blog" description="Engineering notes, essays, and platform articles." currentPath="/blog">
+  <section>
+    <p class="section-eyebrow">Blog</p>
+    <h1>Articles in progress, organized as engineering notes.</h1>
+    <p>
+      The blog will favor field notes, implementation detail, and operational lessons over broad opinion pieces.
+    </p>
+  </section>
+
+  <section class="grid" style="grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));">
+    {draftArticles.map((article) => <ArticleCard {...article} />)}
+  </section>
+</BaseLayout>

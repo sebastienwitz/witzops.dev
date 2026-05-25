@@ -1,0 +1,50 @@
+---
+import TagList from "./TagList.astro";
+
+interface Props {
+  title: string;
+  summary: string;
+  status: string;
+  tags: string[];
+}
+
+const { title, summary, status, tags } = Astro.props;
+---
+
+<article class="surface project-card">
+  <div class="project-card__header">
+    <h3>{title}</h3>
+    <span class="mono">{status}</span>
+  </div>
+  <p>{summary}</p>
+  <TagList tags={tags} />
+</article>
+
+<style>
+  .project-card {
+    padding: 1.25rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .project-card__header {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .project-card__header span {
+    color: var(--accent);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 40rem) {
+    .project-card__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
