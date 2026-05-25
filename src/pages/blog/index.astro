@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (left, right) => right.data.date.getTime() - left.data.date.getTime(),
+);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blog | WitzOps</title>
+    <meta
+      name="description"
+      content="Implementation notes, lessons learned, and engineering field notes."
+    />
+  </head>
+  <body>
+    <main>
+      <h1>Blog</h1>
+      <p>Implementation notes, lessons learned, and engineering field notes.</p>
+
+      {
+        posts.length === 0 ? (
+          <p>No published posts yet.</p>
+        ) : (
+          <ul>
+            {posts.map((post) => (
+              <li>
+                <article>
+                  <h2>{post.data.title}</h2>
+                  <p>{post.data.description}</p>
+                  <p>
+                    <time datetime={post.data.date.toISOString()}>
+                      {post.data.date.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </time>
+                  </p>
+                  <p>{post.data.tags.join(", ")}</p>
+                </article>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </main>
+  </body>
+</html>
