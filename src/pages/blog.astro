@@ -27,20 +27,22 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
         </article>
       ) : (
         posts.map((post) => (
-          <article class="surface interactive-card article-entry">
-            <p class="article-entry__meta mono">
-              <time datetime={post.data.date.toISOString()}>
-                {post.data.date.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </time>
-            </p>
-            <h3 class="card-title"><a href={blogPath(post.id)} class="card-link">{post.data.title}</a></h3>
-            <p>{post.data.description}</p>
-            <TagList tags={post.data.tags} />
-          </article>
+          <a href={blogPath(post.id)} class="card-link">
+            <article class="surface interactive-card article-entry">
+              <p class="article-entry__meta mono">
+                <time datetime={post.data.date.toISOString()}>
+                  {post.data.date.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+              </p>
+              <h3 class="card-title">{post.data.title}</h3>
+              <p>{post.data.description}</p>
+              <TagList tags={post.data.tags} />
+            </article>
+          </a>
         ))
       )
     }
@@ -63,7 +65,7 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
     text-transform: uppercase;
   }
 
-  .article-entry .card-link:hover {
+  .card-link:hover .card-title {
     color: var(--accent);
   }
 

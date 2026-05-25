@@ -299,15 +299,6 @@ const documentTitle = `${title} | ${siteTitle}`;
         font-size: 1.05rem;
       }
 
-      .interactive-card {
-        position: relative;
-      }
-
-      .interactive-card:focus-within {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-      }
-
       .card-title {
         font-size: inherit;
         margin-bottom: 0;
@@ -318,11 +309,10 @@ const documentTitle = `${title} | ${siteTitle}`;
         text-decoration: none;
       }
 
-      .card-link::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        z-index: 0;
+      .card-link:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: var(--radius-lg);
       }
 
       @media (max-width: 48rem) {

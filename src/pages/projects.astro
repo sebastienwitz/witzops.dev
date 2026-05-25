@@ -28,13 +28,14 @@ const projectCards = (await getCollection("projects")).sort(
         </article>
       ) : (
         projectCards.map((project) => (
-          <ProjectCard
-            title={project.data.title}
-            summary={project.data.description}
-            status={project.data.status}
-            tags={project.data.tags}
-            href={projectPath(project.id)}
-          />
+          <a href={projectPath(project.id)} class="card-link">
+            <ProjectCard
+              title={project.data.title}
+              summary={project.data.description}
+              status={project.data.status}
+              tags={project.data.tags}
+            />
+          </a>
         ))
       )
     }

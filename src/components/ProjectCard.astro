@@ -6,15 +6,14 @@ interface Props {
   summary: string;
   status: string;
   tags: string[];
-  href?: string;
 }
 
-const { title, summary, status, tags, href } = Astro.props;
+const { title, summary, status, tags } = Astro.props;
 ---
 
 <article class="surface interactive-card project-card">
   <div class="project-card__header">
-    <h3 class="card-title">{href ? <a href={href} class="card-link">{title}</a> : title}</h3>
+    <h3 class="card-title">{title}</h3>
     <span class="mono">{status}</span>
   </div>
   <p>{summary}</p>
