@@ -1,21 +1,11 @@
 ---
-import ArticleCard from "../components/ArticleCard.astro";
+import TagList from "../components/TagList.astro";
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const draftArticles = [
-  {
-    title: "Why I'm building WitzOps",
-    summary: "A short introduction to the purpose and boundaries of the field notebook.",
-    href: "/blog",
-    tags: ["Platform", "Notes", "Mission"],
-  },
-  {
-    title: "From homelab to engineering platform",
-    summary: "A framing article on operational discipline, reusable patterns, and public documentation.",
-    href: "/blog",
-    tags: ["Operations", "Architecture", "Growth"],
-  },
-];
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (left, right) => right.data.date.getTime() - left.data.date.getTime(),
+);
 ---
 
 <BaseLayout title="Blog" description="Engineering notes, essays, and platform articles." currentPath="/blog">
@@ -28,6 +18,52 @@ const draftArticles = [
   </section>
 
   <section class="grid" style="grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));">
-    {draftArticles.map((article) => <ArticleCard {...article} />)}
+    {
+      posts.length === 0 ? (
+        <article class="surface empty-state">
+          <h2>No published posts yet.</h2>
+          <p>Collection wiring is in place. Published entries will appear here once draft status is removed.</p>
+        </article>
+      ) : (
+        posts.map((post) => (
+          <article class="surface article-entry">
+            <p class="article-entry__meta mono">
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+            </p>
+            <h3>{post.data.title}</h3>
+            <p>{post.data.description}</p>
+            <TagList tags={post.data.tags} />
+          </article>
+        ))
+      )
+    }
   </section>
 </BaseLayout>
+
+<style>
+  .article-entry,
+  .empty-state {
+    padding: 1.25rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .article-entry__meta {
+    margin-bottom: -0.4rem;
+    color: var(--accent);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .empty-state h2 {
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+</style>
