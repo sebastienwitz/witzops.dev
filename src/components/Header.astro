@@ -1,0 +1,116 @@
+---
+import { navigationItems, siteTagline, siteTitle } from "../data/site";
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__name">{siteTitle}</span>
+      <span class="site-header__tagline">{siteTagline}</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <ul class="site-header__nav">
+        {
+          navigationItems.map((item) => {
+            const isActive = item.href === currentPath;
+
+            return (
+              <li>
+                <a href={item.href} aria-current={isActive ? "page" : undefined} data-active={isActive}>
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(18px);
+    background: rgba(11, 17, 22, 0.82);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site-header__inner {
+    width: min(calc(100% - 2rem), var(--content-width));
+    margin: 0 auto;
+    padding: 1rem 0;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-header__brand {
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .site-header__name {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .site-header__tagline {
+    color: var(--text-soft);
+    font-size: 0.85rem;
+  }
+
+  .site-header__nav {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+  }
+
+  .site-header__nav a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 0.8rem;
+    border-radius: 999px;
+    color: var(--text-soft);
+    border: 1px solid transparent;
+    transition:
+      border-color 120ms ease,
+      color 120ms ease,
+      background-color 120ms ease;
+  }
+
+  .site-header__nav a:hover,
+  .site-header__nav a[data-active="true"] {
+    color: var(--text);
+    border-color: var(--line-strong);
+    background: var(--accent-soft);
+  }
+
+  @media (max-width: 48rem) {
+    .site-header__inner {
+      width: min(calc(100% - 1.25rem), var(--content-width));
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .site-header__nav {
+      justify-content: flex-start;
+    }
+  }
+</style>

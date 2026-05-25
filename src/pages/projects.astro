@@ -1,0 +1,34 @@
+---
+import ProjectCard from "../components/ProjectCard.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const projectCards = [
+  {
+    title: "Platform Workstreams",
+    summary: "Selected infrastructure and automation threads will land here as the public archive grows.",
+    status: "Planned",
+    tags: ["IaC", "Automation", "Operations"],
+  },
+  {
+    title: "Migration Notes",
+    summary: "Short project snapshots for modernization, cutover planning, and operational hardening.",
+    status: "Draft",
+    tags: ["Migration", "Reliability", "Runbooks"],
+  },
+];
+---
+
+<BaseLayout title="Projects" description="Portfolio projects and implementation notes." currentPath="/projects">
+  <section>
+    <p class="section-eyebrow">Projects</p>
+    <h1>Active engineering tracks and public implementation notes.</h1>
+    <p>
+      This section will gather build logs, patterns, and concise retrospectives rather than polished case-study
+      marketing.
+    </p>
+  </section>
+
+  <section class="grid" style="grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));">
+    {projectCards.map((project) => <ProjectCard {...project} />)}
+  </section>
+</BaseLayout>

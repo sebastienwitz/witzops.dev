@@ -1,0 +1,39 @@
+---
+import TagList from "./TagList.astro";
+
+interface Props {
+  title: string;
+  summary: string;
+  href: string;
+  tags: string[];
+}
+
+const { title, summary, href, tags } = Astro.props;
+---
+
+<article class="surface article-card">
+  <p class="article-card__meta mono">Draft article</p>
+  <h3><a href={href}>{title}</a></h3>
+  <p>{summary}</p>
+  <TagList tags={tags} />
+</article>
+
+<style>
+  .article-card {
+    padding: 1.25rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .article-card__meta {
+    margin-bottom: -0.4rem;
+    color: var(--accent);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .article-card h3 a:hover {
+    color: var(--accent);
+  }
+</style>

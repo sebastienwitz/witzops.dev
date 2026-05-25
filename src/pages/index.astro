@@ -1,21 +1,61 @@
 ---
-const siteTitle = "WitzOps";
-const tagline = "Engineering secure and intelligent platforms.";
+import Callout from "../components/Callout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import TagList from "../components/TagList.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { siteTagline, siteTitle } from "../data/site";
+
+const focusTags = [
+  "Self-hosted infrastructure",
+  "DevOps automation",
+  "AI engineering workflows",
+  "Observability",
+  "Infrastructure as Code",
+  "Secure remote access",
+  "Legacy modernization",
+];
+
+const previewProjects = [
+  {
+    title: "Platform notebook",
+    summary: "A structured home for implementation notes, architecture decisions, and operations patterns.",
+    status: "In setup",
+    tags: ["Astro", "Content", "Structure"],
+  },
+  {
+    title: "Public-safe lab reporting",
+    summary: "A publication model that turns private operations work into reusable public engineering articles.",
+    status: "Framing",
+    tags: ["Security", "Writing", "Operations"],
+  },
+];
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{siteTitle}</title>
-    <meta name="description" content={tagline} />
-  </head>
-  <body>
-    <main>
+<BaseLayout title="Home" description={siteTagline} currentPath="/">
+  <section class="grid hero-grid">
+    <div>
+      <p class="section-eyebrow">Engineering field notebook</p>
       <h1>{siteTitle}</h1>
-      <p>{tagline}</p>
-      <p>Astro scaffold in place. Content and navigation land in subsequent tickets.</p>
-    </main>
-  </body>
-</html>
+      <p>
+        {siteTagline} This site is being assembled as a public notebook for infrastructure, automation, observability,
+        and AI-assisted platform work.
+      </p>
+    </div>
+
+    <Callout title="Current state">
+      <p>Base layout and navigation are in place. Articles, project detail, and deeper documentation land next.</p>
+    </Callout>
+  </section>
+
+  <section>
+    <p class="section-eyebrow">Focus</p>
+    <TagList tags={focusTags} />
+  </section>
+
+  <section>
+    <p class="section-eyebrow">Preview</p>
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));">
+      {previewProjects.map((project) => <ProjectCard {...project} />)}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,38 @@
+---
+import Callout from "../components/Callout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const interests = [
+  "Self-hosted infrastructure",
+  "DevOps automation",
+  "AI engineering workflows",
+  "Observability",
+  "Infrastructure as Code",
+  "Secure remote access",
+  "Legacy modernization",
+];
+---
+
+<BaseLayout title="About" description="About the WitzOps engineering notebook." currentPath="/about">
+  <section>
+    <p class="section-eyebrow">About</p>
+    <h1>WitzOps is a public engineering notebook with a narrow operational focus.</h1>
+    <p>
+      The goal is to document platform work in a way that is reusable, security-aware, and grounded in actual delivery
+      constraints.
+    </p>
+  </section>
+
+  <section class="surface" style="padding: 1.5rem;">
+    <h2>Core topics</h2>
+    <ul>
+      {interests.map((interest) => <li>{interest}</li>)}
+    </ul>
+  </section>
+
+  <section>
+    <Callout title="Editorial direction">
+      <p>The site stays engineering-first: concrete, restrained, and deliberately free of startup-page filler.</p>
+    </Callout>
+  </section>
+</BaseLayout>

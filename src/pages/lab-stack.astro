@@ -1,0 +1,30 @@
+---
+import Callout from "../components/Callout.astro";
+import TagList from "../components/TagList.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const stackAreas = ["Compute", "Networking", "Observability", "CI/CD", "Access Control", "Backups"];
+---
+
+<BaseLayout title="Lab Stack" description="Public-safe lab stack overview." currentPath="/lab-stack">
+  <section>
+    <p class="section-eyebrow">Lab Stack</p>
+    <h1>A public-safe view of the platform categories behind the lab.</h1>
+    <p>
+      This page will document tooling classes, workflows, and design decisions without exposing internal identifiers or
+      sensitive topology.
+    </p>
+  </section>
+
+  <section class="surface" style="padding: 1.5rem; display: grid; gap: 1rem;">
+    <h2>Coverage</h2>
+    <TagList tags={stackAreas} />
+    <p>Service names and exact deployment details remain out of scope for public publication.</p>
+  </section>
+
+  <section>
+    <Callout title="Boundary" variant="muted">
+      <p>Private runbooks stay private. Public content becomes high-signal engineering explanation.</p>
+    </Callout>
+  </section>
+</BaseLayout>
