@@ -1,21 +1,11 @@
 ---
 import ProjectCard from "../components/ProjectCard.astro";
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-const projectCards = [
-  {
-    title: "Platform Workstreams",
-    summary: "Selected infrastructure and automation threads will land here as the public archive grows.",
-    status: "Planned",
-    tags: ["IaC", "Automation", "Operations"],
-  },
-  {
-    title: "Migration Notes",
-    summary: "Short project snapshots for modernization, cutover planning, and operational hardening.",
-    status: "Draft",
-    tags: ["Migration", "Reliability", "Runbooks"],
-  },
-];
+const projectCards = (await getCollection("projects")).sort(
+  (left, right) => left.data.order - right.data.order,
+);
 ---
 
 <BaseLayout title="Projects" description="Portfolio projects and implementation notes." currentPath="/projects">
@@ -29,6 +19,35 @@ const projectCards = [
   </section>
 
   <section class="grid" style="grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));">
-    {projectCards.map((project) => <ProjectCard {...project} />)}
+    {
+      projectCards.length === 0 ? (
+        <article class="surface empty-state">
+          <h2>No projects published yet.</h2>
+          <p>Collection wiring is in place. Project entries will appear here as they are added.</p>
+        </article>
+      ) : (
+        projectCards.map((project) => (
+          <ProjectCard
+            title={project.data.title}
+            summary={project.data.description}
+            status={project.data.status}
+            tags={project.data.tags}
+          />
+        ))
+      )
+    }
   </section>
 </BaseLayout>
+
+<style>
+  .empty-state {
+    padding: 1.25rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .empty-state h2 {
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+</style>
