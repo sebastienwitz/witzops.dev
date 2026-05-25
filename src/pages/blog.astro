@@ -36,7 +36,7 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
                 })}
               </time>
             </p>
-            <h3>{post.data.title}</h3>
+            <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
             <p>{post.data.description}</p>
             <TagList tags={post.data.tags} />
           </article>
@@ -60,6 +60,10 @@ const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
     font-size: 0.8rem;
     letter-spacing: 0;
     text-transform: uppercase;
+  }
+
+  .article-entry h3 a:hover {
+    color: var(--accent);
   }
 
   .empty-state h2 {
