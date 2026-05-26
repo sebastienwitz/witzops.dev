@@ -29,10 +29,20 @@ npm run build     # builds for production to ./dist/
 npm run preview   # previews the production build locally
 ```
 
-## Deployment
+## Cloudflare Pages
 
-Deployment is handled by Cloudflare Pages, wired to the `main` branch.
-Every push to `main` triggers a production deploy.
+The site is static Astro output and deploys to Cloudflare Pages.
+
+| Setting              | Value           |
+| -------------------- | --------------- |
+| Framework preset     | Astro           |
+| Build command        | `npm run build` |
+| Output directory     | `dist`          |
+| Production branch    | `main`          |
+
+Every push to `main` triggers a production deploy. The site is fully static
+with no server-side rendering and no runtime dependencies beyond the built
+assets.
 
 ## Security and publication rules
 
