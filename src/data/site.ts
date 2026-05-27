@@ -1,5 +1,5 @@
 export const siteTitle = "WitzOps";
-export const siteTagline = "Engineering secure and intelligent platforms.";
+export const siteTagline = "Modernizing complex software systems with DevOps, AI, and pragmatic architecture.";
 
 export const navigationItems = [
   { href: "/", label: "Home" },
@@ -11,4 +11,4 @@ export const navigationItems = [
 ] as const;
 
 export const socialNote =
-  "Public notes on infrastructure, automation, observability, and AI-assisted engineering.";
+  "Public notes on legacy modernization, DevOps automation, observability, and AI-assisted engineering.";
