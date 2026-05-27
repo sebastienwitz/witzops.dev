@@ -5,50 +5,100 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { siteTagline } from "../data/site";
 
 const focusTags = [
-  "Self-hosted infrastructure",
+  "Legacy modernization",
   "DevOps automation",
   "AI engineering workflows",
+  "Architecture notes",
   "Observability",
   "Infrastructure as Code",
   "Secure remote access",
-  "Legacy modernization",
 ];
 
 const previewProjects = [
   {
-    title: "Platform notebook",
-    summary: "A structured home for implementation notes, architecture decisions, and operations patterns.",
-    status: "In setup",
-    tags: ["Astro", "Content", "Structure"],
+    title: "Replay Lab",
+    summary: "A sandbox for testing agentic development workflows, deterministic runs, and review loops.",
+    status: "Active",
+    visualLabel: "agent/replay",
+    outcome: "Turns AI experiments into repeatable engineering signals.",
+    tags: ["AI", "Agents", "Validation"],
   },
   {
-    title: "Observability layer",
-    summary: "A planned metrics and status layer for turning platform operations into visible engineering signals.",
-    status: "Planned",
-    tags: ["Grafana", "Prometheus", "IaC"],
-  },
-  {
-    title: "Public-safe lab reporting",
-    summary: "A publication model that turns private operations work into reusable public engineering articles.",
+    title: "Modernization notebook",
+    summary: "Patterns for securing and evolving complex legacy software without pretending rewrites are free.",
     status: "Framing",
-    tags: ["Security", "Writing", "Operations"],
+    visualLabel: "legacy/map",
+    outcome: "Connects architecture, CI/CD, testing, and delivery constraints.",
+    tags: ["Legacy", "Architecture", "DevOps"],
   },
+  {
+    title: "WitzOps platform lab",
+    summary: "A public-safe view of homelab infrastructure used to prototype secure platform operations.",
+    status: "In setup",
+    visualLabel: "platform/net",
+    outcome: "Makes infrastructure work visible without leaking private topology.",
+    tags: ["Cloudflare", "Docker", "IaC"],
+  },
+];
+
+const operatingLoop = [
+  "Understand the system",
+  "Capture constraints",
+  "Automate the path",
+  "Validate the delta",
+  "Publish the pattern",
+];
+
+const proofPoints = [
+  { label: "Source", value: "legacy codebases" },
+  { label: "Control", value: "CI/CD + tests" },
+  { label: "Amplifier", value: "AI agents" },
 ];
 ---
 
 <BaseLayout title="Home" description={siteTagline} currentPath="/">
-  <section class="grid hero-grid">
+  <section class="hero-grid home-hero-shell">
     <div class="home-hero">
       <p class="section-eyebrow">Engineering field notebook</p>
       <h1>{siteTagline}</h1>
       <p class="lead">
-        A public notebook for infrastructure, automation, observability, and AI-assisted platform work.
+        WitzOps is a public notebook about turning messy engineering reality into safer delivery systems: legacy
+        modernization, DevOps automation, observability, and AI-assisted workflows.
       </p>
       <div class="button-row">
         <a class="button" href="/projects">Explore projects</a>
         <a class="button" data-variant="ghost" href="/architecture">Architecture notes</a>
       </div>
     </div>
+
+    <aside class="surface hero-visual" aria-label="AI-assisted engineering loop visual">
+      <div class="hero-visual__header">
+        <span class="mono">WitzOps loop</span>
+        <span class="hero-visual__pulse">online</span>
+      </div>
+      <ol class="hero-visual__loop">
+        {operatingLoop.map((step, index) => (
+          <li style={`--step-index: ${index}`}>
+            <span class="mono">0{index + 1}</span>
+            <strong>{step}</strong>
+          </li>
+        ))}
+      </ol>
+      <div class="hero-visual__grid" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </aside>
+  </section>
+
+  <section class="proof-strip" aria-label="Positioning proof points">
+    {proofPoints.map((point) => (
+      <article class="mini-panel proof-strip__item">
+        <span class="mono">{point.label}</span>
+        <strong>{point.value}</strong>
+      </article>
+    ))}
   </section>
 
   <section>
@@ -56,8 +106,33 @@ const previewProjects = [
     <TagList tags={focusTags} />
   </section>
 
+  <section class="story-grid">
+    <article class="surface story-panel story-panel--large">
+      <p class="section-eyebrow">Modernization path</p>
+      <h2>From tangled systems to controlled delivery.</h2>
+      <p>
+        The point is not to make legacy look fashionable. The point is to make change safer: map dependencies,
+        automate builds, validate database and runtime behavior, then let AI agents operate inside that guardrail.
+      </p>
+    </article>
+    <article class="surface story-panel">
+      <p class="section-eyebrow">Design rule</p>
+      <h2>No fake dashboards.</h2>
+      <p>
+        Visuals should explain engineering loops, system boundaries, and delivery signals. Not decorate the page with
+        random servers and neon robot heads.
+      </p>
+    </article>
+  </section>
+
   <section>
-    <p class="section-eyebrow">Preview</p>
+    <div class="section-heading-row">
+      <div>
+        <p class="section-eyebrow">Preview</p>
+        <h2>Work tracks with visible engineering outcomes.</h2>
+      </div>
+      <a class="text-link mono" href="/projects">All projects →</a>
+    </div>
     <div class="content-grid">
       {previewProjects.map((project) => <ProjectCard {...project} />)}
     </div>
@@ -65,8 +140,192 @@ const previewProjects = [
 </BaseLayout>
 
 <style>
-  .home-hero {
-    max-width: 46rem;
+  .home-hero-shell {
+    grid-template-columns: minmax(0, 1.08fr) minmax(18rem, 0.92fr);
+    align-items: center;
   }
 
+  .home-hero {
+    max-width: 48rem;
+  }
+
+  .hero-visual {
+    min-height: 27rem;
+    padding: 1.1rem;
+    isolation: isolate;
+  }
+
+  .hero-visual::before {
+    content: "";
+    position: absolute;
+    inset: -18% -12% auto auto;
+    width: 18rem;
+    height: 18rem;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(85, 199, 232, 0.2), transparent 68%);
+    z-index: 0;
+  }
+
+  .hero-visual__header,
+  .hero-visual__loop,
+  .hero-visual__grid {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-visual__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+    color: var(--text-muted);
+    font-size: 0.74rem;
+    text-transform: uppercase;
+  }
+
+  .hero-visual__pulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--accent-strong);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+  }
+
+  .hero-visual__pulse::before {
+    content: "";
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 18px rgba(85, 199, 232, 0.75);
+  }
+
+  .hero-visual__loop {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .hero-visual__loop li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(90deg, rgba(85, 199, 232, calc(0.04 + var(--step-index) * 0.012)), transparent),
+      rgba(255, 255, 255, 0.032);
+  }
+
+  .hero-visual__loop span {
+    color: var(--accent-warm);
+    font-size: 0.72rem;
+  }
+
+  .hero-visual__loop strong {
+    color: var(--text);
+    font-size: 0.94rem;
+    font-weight: 500;
+  }
+
+  .hero-visual__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+    margin-top: 1rem;
+  }
+
+  .hero-visual__grid span {
+    min-height: 3.2rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(rgba(222, 226, 230, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(222, 226, 230, 0.04) 1px, transparent 1px),
+      rgba(4, 9, 14, 0.3);
+    background-size: 1rem 1rem;
+  }
+
+  .proof-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-top: var(--space-xl);
+  }
+
+  .proof-strip__item {
+    padding: 0.95rem;
+  }
+
+  .proof-strip__item span {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+  }
+
+  .story-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(17rem, 0.7fr);
+    gap: var(--space-lg);
+  }
+
+  .story-panel {
+    padding: 1.25rem;
+  }
+
+  .story-panel--large {
+    min-height: 15rem;
+    display: grid;
+    align-content: center;
+  }
+
+  .story-panel h2 {
+    max-width: 24rem;
+  }
+
+  .section-heading-row {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-md);
+  }
+
+  .section-heading-row h2 {
+    margin-bottom: 0;
+  }
+
+  .text-link {
+    color: var(--accent-strong);
+    font-size: 0.82rem;
+  }
+
+  .text-link:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 56rem) {
+    .home-hero-shell,
+    .story-grid,
+    .proof-strip {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-visual {
+      min-height: auto;
+    }
+
+    .section-heading-row {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
 </style>
