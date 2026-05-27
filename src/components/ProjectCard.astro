@@ -6,25 +6,143 @@ interface Props {
   summary: string;
   status: string;
   tags: string[];
+  visualLabel?: string;
+  outcome?: string;
 }
 
-const { title, summary, status, tags } = Astro.props;
+const { title, summary, status, tags, visualLabel = "//", outcome } = Astro.props;
 ---
 
 <article class="surface interactive-card project-card">
+  <div class="project-card__visual" aria-hidden="true">
+    <span>{visualLabel}</span>
+    <div class="project-card__trace project-card__trace--one"></div>
+    <div class="project-card__trace project-card__trace--two"></div>
+    <div class="project-card__node project-card__node--one"></div>
+    <div class="project-card__node project-card__node--two"></div>
+  </div>
   <div class="project-card__header">
     <h3 class="card-title">{title}</h3>
     <span class="mono">{status}</span>
   </div>
   <p>{summary}</p>
+  {outcome && <p class="project-card__outcome">{outcome}</p>}
   <TagList tags={tags} />
 </article>
 
 <style>
-  .project-card { min-height: 12rem; padding: 1.2rem; display: grid; gap: 0.9rem; align-content: start; transition: border-color 150ms ease; }
-  .project-card:hover { border-color: var(--line-strong); }
-  .project-card__header { display: flex; gap: 1rem; align-items: flex-start; justify-content: space-between; }
-  .project-card__header span { flex: 0 0 auto; padding: 0.25rem 0.52rem; border: 1px solid var(--accent-line); border-radius: var(--radius); background: rgba(85, 199, 232, 0.07); color: var(--accent-strong); font-size: 0.72rem; letter-spacing: 0; line-height: 1.2; text-transform: uppercase; }
-  .project-card p { margin-bottom: 0; }
-  @media (max-width: 40rem) { .project-card__header { flex-direction: column; align-items: flex-start; } }
+  .project-card {
+    min-height: 15rem;
+    padding: 1.2rem;
+    display: grid;
+    gap: 0.95rem;
+    align-content: start;
+    transition:
+      border-color 150ms ease,
+      transform 150ms ease,
+      background 150ms ease;
+  }
+
+  .project-card:hover {
+    border-color: var(--line-strong);
+    transform: translateY(-2px);
+    background: linear-gradient(180deg, rgba(22, 28, 34, 0.94), rgba(9, 11, 14, 0.96));
+  }
+
+  .project-card__visual {
+    position: relative;
+    min-height: 4.4rem;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background:
+      radial-gradient(circle at 18% 35%, rgba(85, 199, 232, 0.22), transparent 1.7rem),
+      radial-gradient(circle at 82% 70%, rgba(200, 164, 107, 0.18), transparent 1.8rem),
+      linear-gradient(135deg, rgba(85, 199, 232, 0.08), rgba(255, 255, 255, 0.025));
+  }
+
+  .project-card__visual span {
+    position: absolute;
+    left: 0.85rem;
+    top: 0.72rem;
+    color: var(--accent-strong);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+  }
+
+  .project-card__trace {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(85, 199, 232, 0.68), transparent);
+    transform-origin: left center;
+  }
+
+  .project-card__trace--one {
+    inset: auto 0.7rem 1.25rem 2rem;
+    transform: rotate(-7deg);
+  }
+
+  .project-card__trace--two {
+    inset: 2rem 1.1rem auto 4.8rem;
+    transform: rotate(9deg);
+  }
+
+  .project-card__node {
+    position: absolute;
+    width: 0.55rem;
+    height: 0.55rem;
+    border: 1px solid rgba(211, 243, 251, 0.8);
+    border-radius: 999px;
+    background: rgba(85, 199, 232, 0.18);
+    box-shadow: 0 0 18px rgba(85, 199, 232, 0.24);
+  }
+
+  .project-card__node--one {
+    right: 1.35rem;
+    top: 1.2rem;
+  }
+
+  .project-card__node--two {
+    left: 2.9rem;
+    bottom: 1rem;
+  }
+
+  .project-card__header {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .project-card__header span {
+    flex: 0 0 auto;
+    padding: 0.25rem 0.52rem;
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+    background: rgba(85, 199, 232, 0.07);
+    color: var(--accent-strong);
+    font-size: 0.72rem;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .project-card p {
+    margin-bottom: 0;
+  }
+
+  .project-card__outcome {
+    padding-left: 0.85rem;
+    border-left: 1px solid var(--accent-line);
+    color: var(--text);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 40rem) {
+    .project-card__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
 </style>
