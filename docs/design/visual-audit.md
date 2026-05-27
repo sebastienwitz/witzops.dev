@@ -10,7 +10,7 @@ The goal is to move WitzOps away from a generic infrastructure notebook feeling 
 
 > Modernizing complex software systems with DevOps, AI, and pragmatic architecture.
 
-The current design identity remains valid: dark, restrained, technical, public-safe. This PR adds more visual structure and clearer storytelling.
+The current design identity remains valid: dark, restrained, technical, public-safe. The homepage should feel sharper, not heavier.
 
 ## References
 
@@ -18,79 +18,45 @@ Directional references only. The goal is not to clone them.
 
 - Vercel: premium developer-product hero, crisp hierarchy, strong first viewport.
 - Linear: polished dark UI, spacing discipline, subtle card treatments.
-- Railway: infrastructure energy, visual systems, builder vibe.
-- Cloudflare: trust, network/platform language, technical diagrams.
+- Railway: infrastructure energy and builder vibe.
+- Cloudflare: trust, platform language, clear technical storytelling.
 
-## Findings
+## Coherence check
 
-### 1. First impression was too generic
+The first design pass added too many explanatory blocks. The same message was repeated through the hero, visual loop, proof strip, focus tags, story panels, and card outcomes.
 
-The previous hero was clean but still sounded like a broad platform/ops site. It did not surface legacy modernization, DevOps industrialization, or AI-assisted engineering quickly enough.
+That made the homepage richer, but also more crowded and less confident.
 
-Change made:
+The adjusted direction is deliberately simpler:
 
-- sharpened the global tagline,
-- rewrote the hero copy,
-- added a visual engineering loop to clarify the operating model.
+1. Say the positioning once in the hero.
+2. Use focus tags as quick scanning aids.
+3. Put the concrete work tracks immediately after.
+4. Keep only one short operating-principle block.
 
-### 2. Homepage lacked visual anchors
-
-The previous homepage was mostly text, tags, and simple cards. It was coherent but visually quiet.
-
-Change made:
-
-- added a hero-side visual panel,
-- added a proof strip,
-- added two storytelling panels,
-- made project cards more visual.
-
-### 3. Project cards needed stronger scanability
-
-Project cards were clean but read like static notes.
-
-Change made:
-
-- added a small abstract visual area,
-- added optional outcome text,
-- made card metadata more explicit.
-
-### 4. Visuals must stay public-safe
-
-The site should not expose real private topology or customer details.
-
-Direction kept:
-
-- abstract diagrams,
-- generic engineering loops,
-- no real endpoint names,
-- no private infrastructure map.
-
-## Implemented in this pass
+## Implemented in the simplified pass
 
 - Sharper site tagline in `src/data/site.ts`.
-- Homepage hero refresh in `src/pages/index.astro`.
-- AI-assisted engineering loop visual.
-- Proof strip for source/control/amplifier positioning.
-- Two storytelling panels:
-  - modernization path,
-  - design rule against fake dashboards.
-- More visual `ProjectCard` component with optional `visualLabel` and `outcome` props.
+- Simpler homepage hero with a subtle abstract background accent.
+- Focus tags reduced and deduplicated.
+- Project cards kept visual, but without heavy pseudo-diagram panels.
+- Card outcomes shortened to one practical value statement.
+- Removed the separate proof strip.
+- Removed the large hero-side engineering loop panel.
+- Removed the second story panel.
+- Kept one short manifesto block: from legacy complexity to controlled delivery.
 
-## Still to do
+## Remaining direction
 
-This PR is only the first implementation slice.
+Next improvements should add specificity, not more generic decoration.
 
 Recommended next passes:
 
 1. Add real project-specific links/actions on preview cards.
-2. Create proper SVG assets for:
-   - AI engineering loop,
-   - legacy modernization map,
-   - platform topology,
-   - Replay Lab flow.
-3. Add before/after screenshots to the issue or PR.
-4. Review mobile rendering after deployment preview.
-5. Consider a lightweight motion pass, but only if it remains restrained.
+2. Replace abstract card labels with project-specific SVG icons only if they add clarity.
+3. Add one strong hero asset later, but keep it ambient rather than explanatory.
+4. Add before/after screenshots to the issue or PR.
+5. Review mobile rendering after deployment preview.
 
 ## Design constraints
 
@@ -98,4 +64,5 @@ Recommended next passes:
 - Avoid a full Figma rebuild.
 - Avoid generic stock photography.
 - Avoid AI clichés such as robot heads, glowing brains, and meaningless dashboards.
+- Do not repeat the same positioning message across multiple blocks.
 - Keep the site fast, readable, and public-safe.
