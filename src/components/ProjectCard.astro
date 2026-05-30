@@ -6,25 +6,77 @@ interface Props {
   summary: string;
   status: string;
   tags: string[];
+  visualLabel?: string;
+  outcome?: string;
 }
 
-const { title, summary, status, tags } = Astro.props;
+const { title, summary, status, tags, visualLabel, outcome } = Astro.props;
 ---
 
 <article class="surface interactive-card project-card">
-  <div class="project-card__header">
-    <h3 class="card-title">{title}</h3>
-    <span class="mono">{status}</span>
+  <div class="project-card__meta">
+    {visualLabel && <span class="project-card__kicker mono">{visualLabel}</span>}
+    <span class="project-card__status mono">{status}</span>
   </div>
+  <h3 class="card-title">{title}</h3>
   <p>{summary}</p>
+  {outcome && <p class="project-card__outcome">{outcome}</p>}
   <TagList tags={tags} />
 </article>
 
 <style>
-  .project-card { min-height: 12rem; padding: 1.2rem; display: grid; gap: 0.9rem; align-content: start; transition: border-color 150ms ease; }
-  .project-card:hover { border-color: var(--line-strong); }
-  .project-card__header { display: flex; gap: 1rem; align-items: flex-start; justify-content: space-between; }
-  .project-card__header span { flex: 0 0 auto; padding: 0.25rem 0.52rem; border: 1px solid var(--accent-line); border-radius: var(--radius); background: rgba(85, 199, 232, 0.07); color: var(--accent-strong); font-size: 0.72rem; letter-spacing: 0; line-height: 1.2; text-transform: uppercase; }
-  .project-card p { margin-bottom: 0; }
-  @media (max-width: 40rem) { .project-card__header { flex-direction: column; align-items: flex-start; } }
+  .project-card {
+    min-height: 12.5rem;
+    padding: 1.2rem;
+    display: grid;
+    gap: 0.85rem;
+    align-content: start;
+    border-left-color: var(--accent-line);
+    transition:
+      border-color 150ms ease,
+      transform 150ms ease,
+      background 150ms ease;
+  }
+
+  .project-card:hover {
+    border-color: var(--line-strong);
+    border-left-color: var(--accent-line);
+    transform: translateY(-2px);
+    background: linear-gradient(180deg, rgba(22, 28, 34, 0.94), rgba(9, 11, 14, 0.96));
+  }
+
+  .project-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .project-card__kicker {
+    color: var(--accent-warm);
+    font-size: 0.72rem;
+  }
+
+  .project-card__status {
+    flex: 0 0 auto;
+    padding: 0.25rem 0.52rem;
+    border: 1px solid var(--accent-line);
+    border-radius: var(--radius);
+    background: rgba(85, 199, 232, 0.07);
+    color: var(--accent-strong);
+    font-size: 0.72rem;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .project-card p {
+    margin-bottom: 0;
+  }
+
+  .project-card__outcome {
+    color: var(--text);
+    font-size: 0.9rem;
+  }
 </style>

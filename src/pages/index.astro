@@ -5,44 +5,50 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import { siteTagline } from "../data/site";
 
 const focusTags = [
-  "Self-hosted infrastructure",
-  "DevOps automation",
-  "AI engineering workflows",
-  "Observability",
-  "Infrastructure as Code",
-  "Secure remote access",
   "Legacy modernization",
+  "DevOps automation",
+  "AI-assisted engineering",
+  "Pragmatic architecture",
+  "Observability",
+  "Secure platform lab",
 ];
 
 const previewProjects = [
   {
-    title: "Platform notebook",
-    summary: "A structured home for implementation notes, architecture decisions, and operations patterns.",
-    status: "In setup",
-    tags: ["Astro", "Content", "Structure"],
+    title: "Replay Lab",
+    summary: "A sandbox for testing agentic development workflows, deterministic runs, and review loops.",
+    status: "Active",
+    visualLabel: "AI workflow",
+    outcome: "Repeatable experiments instead of one-off prompts.",
+    tags: ["AI", "Agents", "Validation"],
   },
   {
-    title: "Observability layer",
-    summary: "A planned metrics and status layer for turning platform operations into visible engineering signals.",
-    status: "Planned",
-    tags: ["Grafana", "Prometheus", "IaC"],
-  },
-  {
-    title: "Public-safe lab reporting",
-    summary: "A publication model that turns private operations work into reusable public engineering articles.",
+    title: "Modernization notebook",
+    summary: "Patterns for securing and evolving complex legacy software without pretending rewrites are free.",
     status: "Framing",
-    tags: ["Security", "Writing", "Operations"],
+    visualLabel: "Legacy systems",
+    outcome: "Safer change through architecture, tests, and CI/CD.",
+    tags: ["Legacy", "Architecture", "DevOps"],
+  },
+  {
+    title: "WitzOps platform lab",
+    summary: "A public-safe view of homelab infrastructure used to prototype secure platform operations.",
+    status: "In setup",
+    visualLabel: "Platform lab",
+    outcome: "Infrastructure experiments without leaking private topology.",
+    tags: ["Cloudflare", "Docker", "IaC"],
   },
 ];
 ---
 
 <BaseLayout title="Home" description={siteTagline} currentPath="/">
-  <section class="grid hero-grid">
+  <section class="home-hero-shell">
     <div class="home-hero">
       <p class="section-eyebrow">Engineering field notebook</p>
       <h1>{siteTagline}</h1>
       <p class="lead">
-        A public notebook for infrastructure, automation, observability, and AI-assisted platform work.
+        WitzOps documents how messy engineering systems can be made safer to change: legacy codebases, delivery
+        pipelines, observability, and AI-assisted workflows used as practical tools rather than theatre.
       </p>
       <div class="button-row">
         <a class="button" href="/projects">Explore projects</a>
@@ -57,16 +63,96 @@ const previewProjects = [
   </section>
 
   <section>
-    <p class="section-eyebrow">Preview</p>
+    <div class="section-heading-row">
+      <div>
+        <p class="section-eyebrow">Preview</p>
+        <h2>Work tracks with visible engineering outcomes.</h2>
+      </div>
+      <a class="text-link mono" href="/projects">All projects →</a>
+    </div>
     <div class="content-grid">
       {previewProjects.map((project) => <ProjectCard {...project} />)}
     </div>
   </section>
+
+  <section class="manifesto surface">
+    <p class="section-eyebrow">Operating principle</p>
+    <h2>From legacy complexity to controlled delivery.</h2>
+    <p>
+      The point is not to make old systems look fashionable. The point is to understand the constraints, automate the
+      risky path, validate the delta, and let AI agents operate inside that safety net.
+    </p>
+  </section>
 </BaseLayout>
 
 <style>
-  .home-hero {
-    max-width: 46rem;
+  .home-hero-shell {
+    position: relative;
+    overflow: hidden;
+    padding: 1rem 0 0.5rem;
   }
 
+  .home-hero-shell::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0.4rem;
+    width: min(34rem, 58vw);
+    height: 18rem;
+    pointer-events: none;
+    border-radius: 999px;
+    background:
+      radial-gradient(circle at 75% 35%, rgba(85, 199, 232, 0.18), transparent 32%),
+      radial-gradient(circle at 35% 70%, rgba(200, 164, 107, 0.12), transparent 34%);
+    filter: blur(2px);
+    opacity: 0.9;
+  }
+
+  .home-hero {
+    position: relative;
+    z-index: 1;
+    max-width: rem;
+  }
+
+  .section-heading-row {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-md);
+  }
+
+  .section-heading-row h2 {
+    margin-bottom: 0;
+  }
+
+  .text-link {
+    color: var(--accent-strong);
+    font-size: 0.82rem;
+  }
+
+  .text-link:hover {
+    color: var(--text);
+  }
+
+  .manifesto {
+    max-width: 52rem;
+    padding: 1.35rem;
+  }
+
+  .manifesto h2 {
+    max-width: 28rem;
+  }
+
+  @media (max-width: 56rem) {
+    .home-hero-shell::after {
+      width: 100%;
+      opacity: 0.45;
+    }
+
+    .section-heading-row {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
 </style>
